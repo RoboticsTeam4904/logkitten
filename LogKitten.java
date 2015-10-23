@@ -15,20 +15,18 @@ public class LogKitten {
 	public final static KittenLevel LEVEL_WARN = new KittenLevel("WARN", 2);
 	public final static KittenLevel LEVEL_VERBOSE = new KittenLevel("VERBOSE", 3);
 	public final static KittenLevel LEVEL_DEBUG = new KittenLevel("DEBUG", 4);
-	public final static KittenLevel DEFAULT_LOG_LEVEL = LEVEL_VERBOSE;
-	public final static KittenLevel DEFAULT_PRINT_LEVEL = LEVEL_WARN;
-	private static KittenLevl logLevel = DEFAULT_LOG_LEVEL;
+	public static KittenLevel DEFAULT_LOG_LEVEL = LEVEL_VERBOSE;
+	public static KittenLevel DEFAULT_PRINT_LEVEL = LEVEL_WARN;
+	private static KittenLevel logLevel = DEFAULT_LOG_LEVEL;
 	private static KittenLevel printLevel = DEFAULT_PRINT_LEVEL;
 	private static String LOG_PATH = "/home/lvuser/logs/";
 	private static boolean PRINT_MUTE = false;
-
 	static {
 		String filePath = LOG_PATH + timestamp() + ".log"; // Set this sessions log to /home/lvuser/logs/[current time].log
 		File file = new File(filePath);
 		try {
 			// Create new file if it doesn't exist (this should happen)
 			file.createNewFile(); // creates if does not exist
-
 			// Create FileOutputStream to actually write to the file.
 			fileOutput = new FileOutputStream(file);
 		}
@@ -37,7 +35,7 @@ public class LogKitten {
 			ioe.printStackTrace();
 		}
 	}
-
+	
 	/**
 	 * Get the name of a logger method's caller
 	 * 
@@ -86,7 +84,7 @@ public class LogKitten {
 	public static void setPrintMute(boolean mute) {
 		PRINT_MUTE = mute;
 	}
-
+	
 	private static void logMessage(String message, KittenLevel level, boolean override) {
 		if (logLevel.compareTo(level) >= 0) {
 			try {
@@ -209,7 +207,7 @@ public class LogKitten {
 	 * @param message
 	 * @param override
 	 */
-	public static void i(String message, boolean override){
+	public static void i(String message, boolean override) {
 		logMessage(message, LEVEL_VERBOSE, override);
 	}
 	
@@ -217,7 +215,7 @@ public class LogKitten {
 	 * Log message at LEVEL_VERBOSE (INFO links to verbose)
 	 * @param message
 	 */
-	public static void i(String message){
+	public static void i(String message) {
 		i(message, false);
 	}
 	
