@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Comparator;
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary;
+import edu.wpi.first.wpilibj.communication.HALControlWord;
 
 public class LogKitten {
 	private static FileOutputStream fileOutput;
@@ -21,6 +23,7 @@ public class LogKitten {
 	private static KittenLevel printLevel = DEFAULT_PRINT_LEVEL;
 	private static String LOG_PATH = "/home/lvuser/logs/";
 	private static boolean PRINT_MUTE = false;
+	
 	static {
 		String filePath = LOG_PATH + timestamp() + ".log"; // Set this sessions log to /home/lvuser/logs/[current time].log
 		File file = new File(filePath);
@@ -85,10 +88,23 @@ public class LogKitten {
 		PRINT_MUTE = mute;
 	}
 	
+	/**
+	 * Like DriverStation.reportError, but w/o stack trace nor printing to System.err
+	 * 
+	 * @see edu.wpi.first.wpilibj.DriverStation.reportError
+	 * @param errorString
+	 */
+	private static void reportErrorToDriverStation(String errorString) {
+		HALControlWord controlWord = FRCNetworkCommunicationsLibrary.HALGetControlWord();
+		if (controlWord.getDSAttached()) {
+			FRCNetworkCommunicationsLibrary.HALSetErrorData(errorString);
+		}
+	}
+	
 	private static void logMessage(String message, KittenLevel level, boolean override) {
 		if (logLevel.compareTo(level) >= 0) {
+			String content = timestamp() + " " + level.getName() + ": " + getLoggerMethodCallerMethodName() + ": " + message + " \n";
 			try {
-				String content = timestamp() + " " + level.getName() + ": " + getLoggerMethodCallerMethodName() + ": " + message + " \n";
 				fileOutput.write(content.getBytes());
 				fileOutput.flush();
 			}
@@ -99,7 +115,9 @@ public class LogKitten {
 		}
 		if (!PRINT_MUTE || override) {
 			if (printLevel.compareTo(level) >= 0) {
-				System.out.println(level.getName() + ": " + getLoggerMethodCallerMethodName() + ": " + message + " \n");
+				String printContent = level.getName() + ": " + getLoggerMethodCallerMethodName() + ": " + message + " \n";
+				System.out.println(printContent);
+				reportErrorToDriverStation(printContent);
 			}
 		}
 	}
@@ -166,6 +184,7 @@ public class LogKitten {
 	
 	/**
 	 * Log message at LEVEL_WARN allowing override
+	 * 
 	 * @param message
 	 * @param override
 	 */
@@ -185,6 +204,7 @@ public class LogKitten {
 	
 	/**
 	 * Log message at LEVEL_VERBOSE allowing override
+	 * 
 	 * @param message
 	 * @param override
 	 */
@@ -204,6 +224,7 @@ public class LogKitten {
 	
 	/**
 	 * Log message at LEVEL_VERBOSE (INFO links to verbose) allowing override
+	 * 
 	 * @param message
 	 * @param override
 	 */
@@ -213,6 +234,7 @@ public class LogKitten {
 	
 	/**
 	 * Log message at LEVEL_VERBOSE (INFO links to verbose)
+	 * 
 	 * @param message
 	 */
 	public static void i(String message) {
@@ -221,6 +243,7 @@ public class LogKitten {
 	
 	/**
 	 * Log message at level LEVEL_DEBUG allowing override
+	 * 
 	 * @param message
 	 * @param override
 	 */
