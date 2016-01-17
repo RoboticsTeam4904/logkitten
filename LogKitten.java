@@ -55,7 +55,7 @@ public class LogKitten {
 	 *        default write-to-file level
 	 */
 	public static void setDefaultLogLevel(KittenLevel DEFAULT_LOG_LEVEL) {
-		LogKitten.DEFAULT_LOG_LEVEL = DEFAULT_LOG_LEVEL;
+		LogKitten.logLevel = DEFAULT_LOG_LEVEL;
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class LogKitten {
 	 *        default console log level
 	 */
 	public static void setDefaultPrintLevel(KittenLevel DEFAULT_PRINT_LEVEL) {
-		LogKitten.DEFAULT_PRINT_LEVEL = DEFAULT_PRINT_LEVEL;
+		LogKitten.printLevel = DEFAULT_PRINT_LEVEL;
 	}
 	
 	/**
