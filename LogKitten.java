@@ -105,8 +105,12 @@ public class LogKitten {
 		if (logLevel.compareTo(level) >= 0) {
 			String content = timestamp() + " " + level.getName() + ": " + getLoggerMethodCallerMethodName() + ": " + message + " \n";
 			try {
-				fileOutput.write(content.getBytes());
-				fileOutput.flush();
+				if (fileOutput != null) {
+					fileOutput.write(content.getBytes());
+					fileOutput.flush();
+				} else {
+					System.out.println("Error logging: logfile not open");
+				}
 			}
 			catch (IOException ioe) {
 				System.out.println("Error logging " + level.getName() + " message");
@@ -266,7 +270,9 @@ public class LogKitten {
 	 */
 	public static void clean() {
 		try {
-			fileOutput.close();
+			if (fileOutput != null) {
+				fileOutput.close();
+			} // If it is null, it is closed
 		}
 		catch (IOException ioe) {
 			System.out.println("Could not close logfile output. This should never happen");
