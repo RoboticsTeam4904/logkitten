@@ -27,6 +27,16 @@ public class LogKitten {
 	private static boolean PRINT_MUTE = false;
 	
 	static {
+		File logPathDirectory = new File(LOG_PATH);
+		try {
+			if (!logPathDirectory.isDirectory()) { // ensure that the directory /home/lvuser/logs/ exists
+				logPathDirectory.mkdirs(); // otherwise create all the directories of the path
+			}
+		}
+		catch (SecurityException se) {
+			System.out.println("Could not create log directory");
+			se.printStackTrace();
+		}
 		String filePath = LOG_PATH + timestamp() + ".log"; // Set this sessions log to /home/lvuser/logs/[current time].log
 		File file = new File(filePath);
 		try {
@@ -57,7 +67,7 @@ public class LogKitten {
 	 *        default write-to-file level
 	 */
 	public static void setDefaultLogLevel(KittenLevel DEFAULT_LOG_LEVEL) {
-		LogKitten.DEFAULT_LOG_LEVEL = DEFAULT_LOG_LEVEL;
+		LogKitten.logLevel = DEFAULT_LOG_LEVEL;
 	}
 	
 	/**
@@ -67,7 +77,7 @@ public class LogKitten {
 	 *        default console log level
 	 */
 	public static void setDefaultPrintLevel(KittenLevel DEFAULT_PRINT_LEVEL) {
-		LogKitten.DEFAULT_PRINT_LEVEL = DEFAULT_PRINT_LEVEL;
+		LogKitten.printLevel = DEFAULT_PRINT_LEVEL;
 	}
 	
 	/**
