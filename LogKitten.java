@@ -22,7 +22,7 @@ public class LogKitten {
 	public static KittenLevel DEFAULT_DS_LEVEL = DEFAULT_PRINT_LEVEL;
 	private static KittenLevel logLevel = DEFAULT_LOG_LEVEL;
 	private static KittenLevel printLevel = DEFAULT_PRINT_LEVEL;
-	private static KittenLevel dsLevel = DEFAULT_PRINT_LEVEL;
+	private static KittenLevel dsLevel = DEFAULT_DS_LEVEL;
 	private static String LOG_PATH = "/home/lvuser/logs/";
 	private static boolean PRINT_MUTE = false;
 	
