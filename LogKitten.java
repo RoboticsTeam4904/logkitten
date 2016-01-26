@@ -81,7 +81,7 @@ public class LogKitten {
 	}
 	
 	/**
-	 * Set the default level for which logs will be printed to the console (for all LogKitten instances)
+	 * Set the default level for which logs will be printed to the driver station (for all LogKitten instances)
 	 * 
 	 * @param DEFAULT_DS_LEVEL
 	 *        default driver station level
