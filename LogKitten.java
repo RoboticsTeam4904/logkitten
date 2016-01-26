@@ -87,7 +87,7 @@ public class LogKitten {
 	 *        default driver station level
 	 */
 	public static void setDefaultDSLevel(KittenLevel DEFAULT_DS_LEVEL) {
-		LogKitten.DEFAULT_DS_LEVEL = DEFAULT_DS_LEVEL;
+		LogKitten.dsLevel = DEFAULT_DS_LEVEL;
 	}
 	
 	/**
