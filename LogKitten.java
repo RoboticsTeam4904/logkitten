@@ -19,8 +19,10 @@ public class LogKitten {
 	public final static KittenLevel LEVEL_DEBUG = new KittenLevel("DEBUG", 4);
 	public static KittenLevel DEFAULT_LOG_LEVEL = LEVEL_VERBOSE;
 	public static KittenLevel DEFAULT_PRINT_LEVEL = LEVEL_WARN;
+	public static KittenLevel DEFAULT_DS_LEVEL = DEFAULT_PRINT_LEVEL;
 	private static KittenLevel logLevel = DEFAULT_LOG_LEVEL;
 	private static KittenLevel printLevel = DEFAULT_PRINT_LEVEL;
+	private static KittenLevel dsLevel = DEFAULT_PRINT_LEVEL;
 	private static String LOG_PATH = "/home/lvuser/logs/";
 	private static boolean PRINT_MUTE = false;
 	
@@ -66,6 +68,16 @@ public class LogKitten {
 	 */
 	public static void setDefaultPrintLevel(KittenLevel DEFAULT_PRINT_LEVEL) {
 		LogKitten.DEFAULT_PRINT_LEVEL = DEFAULT_PRINT_LEVEL;
+	}
+	
+	/**
+	 * Set the default level for which logs will be printed to the console (for all LogKitten instances)
+	 * 
+	 * @param DEFAULT_DS_LEVEL
+	 *        default driver station level
+	 */
+	public static void setDefaultDSLevel(KittenLevel DEFAULT_DS_LEVEL) {
+		LogKitten.DEFAULT_DS_LEVEL = DEFAULT_DS_LEVEL;
 	}
 	
 	/**
@@ -118,9 +130,11 @@ public class LogKitten {
 			}
 		}
 		if (!PRINT_MUTE || override) {
+			String printContent = level.getName() + ": " + getLoggerMethodCallerMethodName() + ": " + message + " \n";
 			if (printLevel.compareTo(level) >= 0) {
-				String printContent = level.getName() + ": " + getLoggerMethodCallerMethodName() + ": " + message + " \n";
 				System.out.println(printContent);
+			}
+			if (dsLevel.compareTo(level) >= 0) {
 				reportErrorToDriverStation(printContent);
 			}
 		}
